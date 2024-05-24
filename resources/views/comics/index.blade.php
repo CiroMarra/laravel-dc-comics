@@ -18,7 +18,8 @@
                             <div> Tipo: {{ $comic->type}}</div>
                             
                             <p class="card-text">Descrizione {{ $comic->description }}</p>
-                            <a href="{{ route('home') }}" class="btn btn-primary">Scopri di più</a>
+                            <a href="{{ route('comics.show', ['comic' =>$comic->id]) }}" class="btn btn-primary">Scopri di più</a>
+                            <a href="{{ route('comics.edit', ['comic' =>$comic->id]) }}" class="btn btn-primary">Edita</a>
                             </div>
                         </div>
                     </div>

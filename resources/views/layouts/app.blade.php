@@ -27,7 +27,7 @@
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                   <a class="nav-link" aria-current="page" href="{{ route('comics.index') }}">Lista Comics</a>
-                  <a class="nav-link" aria-current="page" href="comics/create">Aggiungi un fumetto</a>
+                  <a class="nav-link" aria-current="page" href="{{ route('comics.create') }}">Aggiungi un fumetto</a>
                 </div>
               </div>
 
