@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comic;
+use Illuminate\Support\Facades\Validator;
 
 class ComicController extends Controller
 {
@@ -51,6 +52,7 @@ class ComicController extends Controller
         // $newComic->sale_date = $formData['sale_date'];
         // $newComic->description = $formData['description'];
         $newComic->fill($formData);
+        $this->validation($formData);
         $newComic->save();
 
         return redirect()->route('comics.show', ['comic' => $newComic->id]);
@@ -101,6 +103,7 @@ class ComicController extends Controller
     {
         $comic = Comic::findOrFail($id);
         $formData = $request->all();
+        $this->validation($formData);
         
 
 
@@ -123,4 +126,41 @@ class ComicController extends Controller
         return redirect()->route('comics.index');
         
     }
+
+    private function validation($data) {
+        $validator = Validator::make(
+            $data,
+            [
+                'title' => 'required|min:3|max:225',
+                'thumb' => 'required|min:10|max:255',
+                'type' => 'required',
+                'price' => 'required|max:6',
+                'sale_date' => 'required|max:50',
+                'series' => 'required|max:50',
+                'description' => 'nullable|min:50|max:500'
+            ],
+            [
+                'title.required' => 'Titolo obbligatorio',
+                'title.min' => 'Il titolo deve avere almeno 3 caratteri',
+                'title.max' => 'Il titolo può avere un massimo di 225 caratteri',
+                'thumb.required' => 'Il campo immagine è obbligatorio',
+                'thumb.min' => 'Inserisci un link immagine valido',
+                'thumb.max' => 'Il link immagine non può essere lungo più di 255 caratteri.',
+                'type.required' => 'Il campo tipo è obbligatorio',
+                'price.required' => 'Il campo prezzo è obbligatorio',
+                'price.min' => 'devi inserire almeno un numero che abbia una cifra',
+                'price.max' => 'il prezzo non può superare le sei cifre',
+                'sale_date.required' => 'inserisci una data valida',
+                'series.required' => 'inserisci la serie o il volume del Manga/Novel che vuoi creare',
+                'description.min' => 'La descrizione deve essere lunga almeno 50 caratteri' ,
+                'description.max' => 'La descrizione non può superare i 5000 caratteri'
+            ]
+          
+        )->validate();
+
+        return $validator;
+    }
+
+
+
 }
